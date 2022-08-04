@@ -1,0 +1,4 @@
+** what happens when the user has not signed up with Google, yet accesses the link-accounts page?
+** the database will say that the user uses login with google, and also has their password.
+
+** what happens if the token is expired locally?
