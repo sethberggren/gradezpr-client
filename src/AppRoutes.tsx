@@ -23,6 +23,7 @@ import DeletedAccount from "./settings/DeletedAccount";
 import CredentialError from "./CredentialError";
 import useError from "./hooks/useError";
 import { useAppStateContext, useDispatchContext } from "./controllers/context";
+import ForgotPassword, { ResetPasswordSuccess } from "./welcome/ForgotPassword";
 
 export default function AppRoutes(props: {
   authenticatedState: Authentication;
@@ -119,6 +120,8 @@ export default function AppRoutes(props: {
           )
         }
       />
+      <Route path={routes.passwordReset} element={<ForgotPassword />} />
+      <Route path={routes.passwordResetSuccess} element={<ResetPasswordSuccess />} />
       <Route
         path={routes.linkAccounts}
         element={<LinkWithGoogleAccount authentication={authenticatedState} />}

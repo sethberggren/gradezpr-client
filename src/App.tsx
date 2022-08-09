@@ -134,11 +134,11 @@ function App() {
   // JSX VARIABLES
 
   const withInitializingScreen = initializing ? (
-    <BrowserRouter basename={BASENAME}>
+    <BrowserRouter>
       <Initalizing />
     </BrowserRouter>
   ) : (
-    <BrowserRouter basename={BASENAME}>
+    <BrowserRouter>
       <AppRoutes
         authenticatedState={authenticatedState}
         tokenTimeoutState={tokenTimeoutState}
@@ -152,7 +152,7 @@ function App() {
   );
 
   const withoutInitializingScreen = (
-    <BrowserRouter basename={BASENAME}>
+    <BrowserRouter>
       {" "}
       <AppRoutes
         authenticatedState={authenticatedState}

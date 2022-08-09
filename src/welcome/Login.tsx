@@ -1,6 +1,7 @@
 import {
   Divider,
   FormControl,
+  Link
 } from "@chakra-ui/react";
 import { loginUser, loginUserWithGoogle } from "../controllers/actions";
 import useBoolean from "../hooks/useBoolean";
@@ -21,6 +22,7 @@ import { useResponsive } from "../hooks/useResponsive";
 import { Authentication } from "../Types";
 import { useEffect } from "react";
 import { routes } from "../routes";
+import {Link as ReactRouterLink} from "react-router-dom"
 
 type LoginForm = {
   email: string;
@@ -101,6 +103,9 @@ function Login(props: {authentication: Authentication}) {
 
             <ShowLoginErrors incorrectPassword={incorrectPassword} />
 
+            <Link as={ReactRouterLink} to={routes.passwordReset}>Forgot Password?</Link>
+
+            
             <FullScreenFormNextButton
               text={loginButtonText}
               loading={loadingEmailLogin}

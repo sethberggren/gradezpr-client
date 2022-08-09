@@ -1,8 +1,6 @@
 import React from "react";
 import { indexByBool } from "../services/helperFunctions";
-import {
-  Authentication,
-} from "../Types";
+import { Authentication } from "../Types";
 import {
   appContextInitialState,
   useAppStateContext,
@@ -20,24 +18,34 @@ import { CodeResponse, CredentialResponse } from "@react-oauth/google";
 import { apiCall, setTokenFromResponseHeader } from "./APIUtils";
 import { RegisterForm } from "../welcome/Register";
 import { ImportAction } from "./importReducer";
-import {UploadFileDetails} from "@backend/http/routes/upload/uploadFileStats";
+import { UploadFileDetails } from "@backend/http/routes/upload/uploadFileStats";
 import { DriveFile } from "@backend/http/routes/googleRoute/getDriveFiles";
 import { NewToken } from "@backend/http/routes/authentication/generateToken";
-import {AssignmentResponse, CurveMethods, CurveOptions} from "@backend/services/curveGrades";
+import {
+  AssignmentResponse,
+  CurveMethods,
+  CurveOptions,
+} from "@backend/services/curveGrades";
 import { AssignmentDetails } from "@backend/services/getAssignmentStatistics";
-import { CourseResponse, PostCourseRequest } from "@backend/http/routes/courses/postCourse";
-import {StudentResponse} from "@backend/http/routes/students/studentsRoute";
-import {InitializeResponse} from "@backend/http/routes/initialize/initializeRouter";
+import {
+  CourseResponse,
+  PostCourseRequest,
+} from "@backend/http/routes/courses/postCourse";
+import { StudentResponse } from "@backend/http/routes/students/studentsRoute";
+import { InitializeResponse } from "@backend/http/routes/initialize/initializeRouter";
 import { RosterImportResponse } from "@backend/http/routes/students/bulkUploadStudents";
-import {ChangePasswordRequest} from "@backend/http/routes/authentication/changePassword";
-import {ImportDriveFileRequest} from "@backend/http/routes/googleRoute/importDriveFile";
-import { NewStudentRequest } from "../../../gradeupdater/src/http/routes/students/postStudent";
-import { PutStudentRequest } from "../../../gradeupdater/src/http/routes/students/putStudent";
-import {FileCurveDetails} from "../../../gradeupdater/src/http/routes/upload/uploadFileCurve";
-import {CurveDriveFileRequest} from "@backend/http/routes/googleRoute/curveDriveFile";
-import {LoginUserRequest} from "@backend/http/routes/authentication/loginUser";
+import { ChangePasswordRequest } from "@backend/http/routes/authentication/changePassword";
+import { ImportDriveFileRequest } from "@backend/http/routes/googleRoute/importDriveFile";
+import { NewStudentRequest } from "@backend/http/routes/students/postStudent";
+import { PutStudentRequest } from "@backend/http/routes/students/putStudent";
+import { FileCurveDetails } from "@backend/http/routes/upload/uploadFileCurve";
+import { CurveDriveFileRequest } from "@backend/http/routes/googleRoute/curveDriveFile";
+import { LoginUserRequest } from "@backend/http/routes/authentication/loginUser";
 import { UserRequestRequest } from "../footerComponents/BugRequest";
-import { driveScope, sheetsScope } from "../common/buttons/GoogleAdditionalScopesButton";
+import {
+  driveScope,
+  sheetsScope,
+} from "../common/buttons/GoogleAdditionalScopesButton";
 import { getErrorFactory } from "../errors";
 
 // const load = (dispatch: React.Dispatch<Action>) => dispatch({ type: "loadingContent", payload: null });
@@ -55,9 +63,11 @@ export const clearErrors = (dispatch: React.Dispatch<Action>) =>
   dispatch({ type: "error", payload: { type: "", message: "" } });
 
 export const createCredentialError = (dispatch: React.Dispatch<Action>) => {
-  const {name, message} = getErrorFactory("AuthenticationError")("noEmailOrPassword").errorBody
-  dispatch({type: "error", payload: {type: name, message: message} });
-}
+  const { name, message } = getErrorFactory("AuthenticationError")(
+    "noEmailOrPassword"
+  ).errorBody;
+  dispatch({ type: "error", payload: { type: name, message: message } });
+};
 
 export const createError = (
   dispatch: React.Dispatch<Action>,
@@ -177,10 +187,9 @@ export async function importFile(
   file?: File
 ) {
   if (file !== undefined && file.name) {
-
-    const importFileRequest : UploadFileDetails = {
-      subject: courseName
-    }
+    const importFileRequest: UploadFileDetails = {
+      subject: courseName,
+    };
     const fileFormData = new FormData();
     fileFormData.append("file", file, file.name);
     fileFormData.append("body", JSON.stringify(importFileRequest));
@@ -204,11 +213,11 @@ export async function importFile(
   }
 
   if (driveFile && file === undefined) {
-    const importFileRequest : ImportDriveFileRequest = {
+    const importFileRequest: ImportDriveFileRequest = {
       name: driveFile.name,
       id: driveFile.id,
-      course: courseName
-    }
+      course: courseName,
+    };
     const assignment = await apiCall<AssignmentDetails>(
       token,
       dispatch,
@@ -256,7 +265,7 @@ export async function curveGrades(
     const fileFormData = new FormData();
     fileFormData.append("file", file, file.name);
 
-    const fileCurveRequest : FileCurveDetails = {
+    const fileCurveRequest: FileCurveDetails = {
       assignmentDetails: assignmentDetails,
       curveMethod: method,
       curveOptions: options,
@@ -289,12 +298,11 @@ export async function curveGrades(
   }
 
   if (driveFile) {
-
-    const requestPayload : CurveDriveFileRequest = {
+    const requestPayload: CurveDriveFileRequest = {
       assignmentDetails: assignmentDetails,
       curveMethod: method,
-      curveOptions: options
-    }
+      curveOptions: options,
+    };
 
     // to-do:  refactor so this uses options as numbers, instead of options as strings.
     const importedAssignment = await apiCall<AssignmentResponse>(
@@ -384,7 +392,7 @@ export async function addNewCourse(
   currentCourses: CourseResponse[],
   newCourse: string
 ) {
-  const requestPayload : PostCourseRequest =  { subject: newCourse };
+  const requestPayload: PostCourseRequest = { subject: newCourse };
 
   const received = await apiCall<CourseResponse>(
     token,
@@ -475,7 +483,7 @@ export async function createStudent(
   currentStudents: StudentResponse[],
   studentToCreate: StudentResponse
 ) {
-  const requestPayload : NewStudentRequest = { student: studentToCreate };
+  const requestPayload: NewStudentRequest = { student: studentToCreate };
 
   const dbStudent = await apiCall<StudentResponse>(
     token,
@@ -499,7 +507,7 @@ export async function editStudent(
   currentStudents: StudentResponse[],
   studentToEdit: StudentResponse
 ) {
-  const requestPayload : PutStudentRequest = { student: studentToEdit };
+  const requestPayload: PutStudentRequest = { student: studentToEdit };
   const received = await apiCall<StudentResponse>(
     token,
     dispatch,
@@ -567,10 +575,10 @@ export async function loginUser(
   dispatch: React.Dispatch<Action>,
   navigate: NavigateFunction
 ) {
-  const requestPayload : LoginUserRequest = {
+  const requestPayload: LoginUserRequest = {
     email: email,
-    password: password
-  }
+    password: password,
+  };
 
   try {
     // to-do:  create types for received stuff.
@@ -664,9 +672,17 @@ export async function deleteUser(
   dispatch({ type: "setAuthenticated", payload: false });
 }
 
-export async function postUserRequest(token: NewToken | null, dispatch: React.Dispatch<Action>, userRequestRequest: UserRequestRequest) {
-
-  await apiCall(token, dispatch, {type: "POST", payload: userRequestRequest}, apiRoutes.userRequest)
+export async function postUserRequest(
+  token: NewToken | null,
+  dispatch: React.Dispatch<Action>,
+  userRequestRequest: UserRequestRequest
+) {
+  await apiCall(
+    token,
+    dispatch,
+    { type: "POST", payload: userRequestRequest },
+    apiRoutes.userRequest
+  );
 }
 
 export async function grantAdditionalScopes(
@@ -674,12 +690,10 @@ export async function grantAdditionalScopes(
   dispatch: React.Dispatch<Action>,
   codeResponse: CodeResponse
 ) {
-
   if (
     codeResponse.scope.includes(driveScope) &&
     codeResponse.scope.includes(sheetsScope)
   ) {
-
     await apiCall(
       token,
       dispatch,
@@ -692,4 +706,40 @@ export async function grantAdditionalScopes(
       getErrorFactory("GoogleError")("noScopes").errorBody;
     dispatch({ type: "error", payload: { type: name, message: message } });
   }
+}
+
+
+export type ResetPasswordStatus = "OK" | "noEmailOrPassword" | "userDoesNotExist";
+
+export async function resetPassword(payload: {
+  email: string;
+}): Promise<ResetPasswordStatus> {
+  const getErrors = getErrorFactory("AuthenticationError");
+
+  let toReturn : ResetPasswordStatus = "OK";
+
+  try {
+    const response = await axios.post(backendUrl(apiRoutes.forgotPassword), payload);
+
+    if (response.data.status !== "OK") {
+      toReturn = "noEmailOrPassword"
+    }
+
+  } catch (error: any) {
+    let axiosErr: AxiosError = error;
+
+    if (axiosErr.response?.data) {
+      const errorMessage = axiosErr.response.data.message;
+
+      if (errorMessage === getErrors("userDoesNotExist").errorBody.message) {
+        toReturn = "userDoesNotExist";
+      } else {
+       toReturn = "noEmailOrPassword";
+      }
+    } else {
+      toReturn = "noEmailOrPassword";
+    }
+  }
+
+  return toReturn;
 }

@@ -1,6 +1,5 @@
 {
   "name": "grade-updater-ui",
-  "homepage": "/gradezpr",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -20,8 +19,6 @@
     "@types/react": "^17.0.35",
     "@types/react-dom": "^17.0.11",
     "axios": "^0.24.0",
-    "cypress-file-upload": "^5.0.8",
-    "cypress-real-events": "^1.7.0",
     "framer-motion": "^4.1.17",
     "google-auth-library": "^7.10.3",
     "object-typed": "^1.0.0",
@@ -61,6 +58,8 @@
   },
   "devDependencies": {
     "@testing-library/cypress": "^8.0.3",
+    "cypress-file-upload": "^5.0.8",
+    "cypress-real-events": "^1.7.0",
     "@types/uuid": "^8.3.4",
     "cypress": "^10.0.2",
     "node-ssh": "^12.0.4"

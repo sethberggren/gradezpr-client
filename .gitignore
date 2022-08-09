@@ -22,8 +22,17 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+bugs.txt
 deploy.js
 features.txt
 toDo.txt
 toDoBeforeDeploying.txt
 
+# deploy
+Dockerfile
+.dockerignore
+default.conf
+portfolio.tar.gz
+start.sh
+.env.dev
+deploy.js

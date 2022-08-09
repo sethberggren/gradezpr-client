@@ -15,7 +15,9 @@ export const routes = {
   extension: "/extension",
   successfulDelete: "/settings/account-delete",
   credentialError: "/auth-error",
-  requestComplete: "/requestComplete"
+  requestComplete: "/requestComplete",
+  passwordReset: "/password-reset",
+  passwordResetSuccess: "/password-changed"
 } as const;
 
 export const apiRoutes = {
@@ -26,6 +28,7 @@ export const apiRoutes = {
   login: "/auth/login",
   register: "/auth/register",
   changePassword: "/auth/password-change",
+  forgotPassword: "/auth/forgot-password",
   students: "/gradeupdater/students",
   bulkUploadStudents: "/gradeupdater/students/bulk",
   courses: "/gradeupdater/courses",
@@ -39,3 +42,4 @@ export const apiRoutes = {
   curveDriveFile: "/drive/curve",
   userRequest: "/userRequest"
 } as const;
+

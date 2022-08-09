@@ -47,8 +47,8 @@ export const clearStringForm = <K extends { [key: string]: string }>(
 
 export const appUrl = (url?: string) =>
   url
-    ? `http://localhost:3000/${BASENAME}/${url}`
-    : `http://localhost:3000/${BASENAME}`;
+    ? `http://localhost:3000/${url}`
+    : `http://localhost:3000`;
 
 export const menuButton = () => {
   return getByAriaLabel("Menu Button");
