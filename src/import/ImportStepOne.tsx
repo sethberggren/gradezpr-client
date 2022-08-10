@@ -162,7 +162,7 @@ export function ImportStepOne(props: { onClose: () => void }) {
   return (
     <ModalContent>
       <ModalHeader>Import Assignment</ModalHeader>
-      <ModalCloseButton />
+      <ModalCloseButton aria-label="Close Import Assignment Modal" />
 
       <ModalBody>
         <Text> Select Class: </Text>

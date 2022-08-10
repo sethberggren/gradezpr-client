@@ -1,4 +1,4 @@
-import { appUrl, getInputByLabel } from "./cypressTools";
+import { appUrl } from "./tools/generalTools";
 
 const passwordChangeUrl = `http://localhost:8080/auth/forgot-password` 
 

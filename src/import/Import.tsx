@@ -18,12 +18,39 @@ import { useResponsive } from "../hooks/useResponsive";
 import ActionButton from "../common/buttons/ActionButton";
 import { ImportedAssignment } from "./ImportedAssignment";
 import { ImportStateContextProvider } from "../controllers/importContext";
+import NoStudentsOrCoursesModal from "./NoStudentsOrCoursesModal";
 
 export default function Import(props: { displayName: string }) {
   const { displayName } = props;
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: importMainIsOpen,
+    onOpen: importMainOnOpen,
+    onClose: importMainOnClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: noStudentsOrCoursesIsOpen,
+    onOpen: noStudentsOrCoursesOnOpen,
+    onClose: noStudentsOrCoursesOnClose,
+  } = useDisclosure();
+
+  const { userCourses, userStudents } = useAppStateContext();
   const isMdOrSmaller = useResponsive();
+
+  const handleOpen = () => {
+    if (
+      userCourses.length === 0 ||
+      userStudents.length === 0 ||
+      userCourses === undefined ||
+      userStudents === undefined
+    ) {
+      noStudentsOrCoursesOnOpen();
+      return;
+    }
+
+    importMainOnOpen();
+  };
 
   return (
     <Flex direction="column" justifyContent="center" alignItems="center">
@@ -37,7 +64,7 @@ export default function Import(props: { displayName: string }) {
         <SectionHeading title={displayName} />
 
         <ActionButton
-          onClick={onOpen}
+          onClick={handleOpen}
           actionType="primary"
           aria-label="Import New Assignment"
         >
@@ -50,8 +77,13 @@ export default function Import(props: { displayName: string }) {
       </Flex>
 
       <ImportStateContextProvider>
-        <ImportDialogue onClose={onClose} isOpen={isOpen} />
+        <ImportDialogue onClose={importMainOnClose} isOpen={importMainIsOpen} />
       </ImportStateContextProvider>
+
+      <NoStudentsOrCoursesModal
+        isOpen={noStudentsOrCoursesIsOpen}
+        onClose={noStudentsOrCoursesOnClose}
+      />
 
       <ImportedAssignments />
     </Flex>
@@ -91,24 +123,25 @@ function ImportedAssignments() {
 
   // JSX ELEMENTS
 
-  const renderedCourseOptions = () => [
-    "All Classes",
-    ...userCourses.map((course) => course.subject),
-  ].map((val) => (
-    <option value={val} key={val}>
-      {val}
-    </option>
-  ));
+  const renderedCourseOptions = () =>
+    ["All Classes", ...userCourses.map((course) => course.subject)].map(
+      (val) => (
+        <option value={val} key={val}>
+          {val}
+        </option>
+      )
+    );
 
-  const renderedAssignments = () => assignmentsInView.map((value) => (
-    <ImportedAssignment
-      assignment={value}
-      key={value.id}
-      handleDelete={() =>
-        deleteAssignment(token, dispatch, userAssignments, value.id)
-      }
-    />
-  ));
+  const renderedAssignments = () =>
+    assignmentsInView.map((value) => (
+      <ImportedAssignment
+        assignment={value}
+        key={value.id}
+        handleDelete={() =>
+          deleteAssignment(token, dispatch, userAssignments, value.id)
+        }
+      />
+    ));
 
   return (
     <>

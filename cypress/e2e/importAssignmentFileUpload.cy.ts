@@ -1,11 +1,7 @@
 import { ObjectTyped } from "object-typed";
-import {
-  defaultCourses,
-  defaultStudents,
-  getByAriaLabel,
-  getInputByLabel,
-  loginUser,
-} from "./cypressTools";
+import { defaultCourses } from "./tools/courseTools";
+import { getByAriaLabel } from "./tools/formTools";
+import { loginUser } from "./tools/userTools";
 
 const getFileUpload = () => cy.get("input[type=file]");
 

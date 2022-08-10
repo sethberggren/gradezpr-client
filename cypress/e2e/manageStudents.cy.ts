@@ -1,26 +1,11 @@
 import { v4 as uuid } from "uuid";
 import { ObjectTyped } from "object-typed";
-import {
-  defaultCourses,
-  getByAriaLabel,
-  getInputByLabel,
-  loginUser,
-  menuButton,
-} from "./cypressTools";
+import { defaultCourses } from "./tools/courseTools";
+import { getByAriaLabel } from "./tools/formTools";
+import { menuButton } from "./tools/generalTools";
+import { NewStudentForm, fillOutNewStudentForm, checkIfStudentIsCreated, newStudentFormLabels, checkIfStudentIsDeleted } from "./tools/studentTools";
+import { loginUser } from "./tools/userTools";
 
-type NewStudentForm = {
-  firstName: string;
-  lastName: string;
-  id: string;
-  courses: string;
-};
-
-const newStudentFormLabels: NewStudentForm = {
-  firstName: "First Name:",
-  lastName: "Last Name:",
-  id: "ID:",
-  courses: "Courses:",
-};
 
 const newStudentMultipleCourses: NewStudentForm = {
   firstName: uuid(),
@@ -41,60 +26,7 @@ const newStudentOneCourse: NewStudentForm = {
   courses: defaultCourses[0],
 };
 
-const fillOutNewStudentForm = (
-  newStudentFormContent: NewStudentForm,
-  newStudentFormLabels: NewStudentForm,
-  updateOrNew: "update" | "new"
-) => {
-  const checkLabel = "Courses:";
 
-  for (const key of ObjectTyped.keys(newStudentFormContent)) {
-    const label = newStudentFormLabels[key];
-    const entry = newStudentFormContent[key];
-
-    if (label !== checkLabel) {
-      getInputByLabel(label).clear();
-      getInputByLabel(label).type(entry);
-      getInputByLabel(label).should("have.value", entry);
-    } else {
-      // entry is the student's courses, so change that into an array and click on the element.
-
-      const studentCourses = entry.split(",").map((val) => val.trim());
-
-      for (const studentCourse of studentCourses) {
-        cy.get('[type="checkbox"]').check(studentCourse, { force: true });
-      }
-    }
-  }
-
-  if (updateOrNew === "new") {
-    cy.get("button")
-      .contains(/add student/i)
-      .click();
-  } else {
-    cy.get("button")
-      .contains(/update/i)
-      .click();
-  }
-};
-
-const checkIfStudentIsCreated = (newStudentFormContent: NewStudentForm) => {
-  for (const key of ObjectTyped.keys(newStudentFormContent)) {
-    const entry = newStudentFormContent[key];
-
-    cy.get("#student-container").contains(entry).should("be.visible");
-  }
-};
-
-const checkIfStudentIsDeleted = (newStudentFormContent: NewStudentForm) => {
-  for (const key of ObjectTyped.keys(newStudentFormContent)) {
-    if (key !== "courses") {
-      const entry = newStudentFormContent[key];
-
-      cy.get("div").contains(entry).should("not.exist");
-    }
-  }
-};
 
 describe("create new student", () => {
   beforeEach(() => {

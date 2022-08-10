@@ -1,5 +1,7 @@
 import {v4 as uuid} from "uuid"
-import { getByAriaLabel, loginUser, menuButton } from "./cypressTools";
+import { getByAriaLabel } from "./tools/formTools";
+import { menuButton } from "./tools/generalTools";
+import { loginUser } from "./tools/userTools";
 
 const newCourses = [uuid(), uuid(), uuid()];
 

@@ -18,9 +18,7 @@ import {
 } from "../common/FullScreenForm";
 import RegisterFormDisplay from "./RegisterFormDisplay";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
-import { useResponsive } from "../hooks/useResponsive";
 import { Authentication } from "../Types";
-import { useEffect } from "react";
 import { routes } from "../routes";
 import {Link as ReactRouterLink} from "react-router-dom"
 

@@ -201,7 +201,7 @@ export function ImportStepTwo(props: { onClose: () => void }) {
       <ModalHeader maxWidth="90%">
         Import {assignmentReturned.assignmentName}{" "}
       </ModalHeader>
-      <ModalCloseButton />
+      <ModalCloseButton aria-label="Close Import Assignment Modal"/>
 
       <ModalBody>
         <Box>

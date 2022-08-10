@@ -1,23 +1,13 @@
 import * as dotenv from "dotenv";
 import { v4 as uuid } from "uuid";
 import { ObjectTyped } from "object-typed";
-import { appUrl, fillOutStringForm, clearStringForm, getByAriaLabel } from "./cypressTools";
-
-export type RegisterForm = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  confirmedPassword: string;
-};
-
-export const registerFormFieldLabels : RegisterForm = {
-  firstName: "First Name",
-  lastName: "Last Name",
-  email: "Email",
-  password: "Password",
-  confirmedPassword: "Confirm Password",
-};
+import {
+  fillOutStringForm,
+  clearStringForm,
+  getByAriaLabel,
+} from "./tools/formTools";
+import { appUrl } from "./tools/generalTools";
+import { RegisterForm, registerFormFieldLabels } from "./tools/userTools";
 
 const password = uuid();
 
@@ -29,13 +19,13 @@ const registerFormValues: RegisterForm = {
   confirmedPassword: password,
 };
 
-const incorrectRegisterFormValues : RegisterForm = {
+const incorrectRegisterFormValues: RegisterForm = {
   firstName: uuid(),
   lastName: uuid(),
   email: `${uuid()}@gmail.com`,
   password: uuid(),
-  confirmedPassword: password
-}
+  confirmedPassword: password,
+};
 
 describe("register flow", () => {
   it("should visit homepage", () => {
@@ -51,19 +41,22 @@ describe("register flow", () => {
     fillOutStringForm(registerFormFieldLabels, incorrectRegisterFormValues);
 
     cy.contains(/next/i).click();
-    cy.contains(/Your passwords do not match. Check them and try again!/i).should("be.visible");
+    cy.contains(
+      /Your passwords do not match. Check them and try again!/i
+    ).should("be.visible");
   });
 
   it("should allow the user to clear out the form", () => {
     clearStringForm(registerFormFieldLabels);
-  })
+  });
 
   it("should allow the user to fill out the register form", () => {
-
     fillOutStringForm(registerFormFieldLabels, registerFormValues);
 
     cy.contains(/next/i).click();
-    cy.contains(/Your passwords do not match. Check them and try again!/i).should("not.exist");
+    cy.contains(
+      /Your passwords do not match. Check them and try again!/i
+    ).should("not.exist");
 
     cy.url().should("include", "/import");
   });
@@ -94,5 +87,3 @@ describe("delete flow", () => {
     expect(localStorage.getItem("token")).to.be.null;
   });
 });
-
-
