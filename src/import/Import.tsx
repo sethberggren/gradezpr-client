@@ -19,6 +19,7 @@ import ActionButton from "../common/buttons/ActionButton";
 import { ImportedAssignment } from "./ImportedAssignment";
 import { ImportStateContextProvider } from "../controllers/importContext";
 import NoStudentsOrCoursesModal from "./NoStudentsOrCoursesModal";
+import TourModal from "./TourModal";
 
 export default function Import(props: { displayName: string }) {
   const { displayName } = props;
@@ -35,7 +36,13 @@ export default function Import(props: { displayName: string }) {
     onClose: noStudentsOrCoursesOnClose,
   } = useDisclosure();
 
-  const { userCourses, userStudents } = useAppStateContext();
+  const {
+    isOpen: tourModalIsOpen,
+    onOpen: tourModalOnOpen,
+    onClose: tourModalOnClose,
+  } = useDisclosure();
+
+  const { userCourses, userStudents, isNewUser } = useAppStateContext();
   const isMdOrSmaller = useResponsive();
 
   const handleOpen = () => {
@@ -51,6 +58,12 @@ export default function Import(props: { displayName: string }) {
 
     importMainOnOpen();
   };
+
+  useEffect(() => {
+    if (isNewUser) {
+      tourModalOnOpen();
+    }
+  }, [isNewUser]);
 
   return (
     <Flex direction="column" justifyContent="center" alignItems="center">
@@ -84,6 +97,8 @@ export default function Import(props: { displayName: string }) {
         isOpen={noStudentsOrCoursesIsOpen}
         onClose={noStudentsOrCoursesOnClose}
       />
+
+      <TourModal isOpen={tourModalIsOpen} onClose={tourModalOnClose} />
 
       <ImportedAssignments />
     </Flex>

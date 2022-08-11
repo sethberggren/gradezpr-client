@@ -1,8 +1,5 @@
 import { StatHelpText } from "@chakra-ui/react";
-import {
-  CustomError,
-  DiscriminateUnion,
-} from "../Types";
+import { CustomError, DiscriminateUnion } from "../Types";
 import { cloneDeep } from "lodash";
 import { setTokenInStorage } from "./tokenTools";
 import { CourseResponse } from "@backend/http/routes/courses/postCourse";
@@ -72,6 +69,9 @@ const appReducerFunctions: AppReducerFunction = {
   setAuthenticated: (state: State, { payload }: { payload: boolean }) => {
     return { ...state, authenticated: payload };
   },
+  setIsNewUser: (state: State, {payload}: {payload: boolean}) => {
+    return {...state, isNewUser: payload}
+  }
 };
 
 export type State = {
@@ -87,6 +87,8 @@ export type State = {
   windowWidth: number;
   token: NewToken | null;
   authenticated: boolean;
+  isLoggedInWithGoogle: boolean;
+  isNewUser: boolean;
 };
 
 // need some sort of conditional type, in which you set the {type: K, extraProps: depending on K} to use with dispatch function...
@@ -107,8 +109,11 @@ export type Action =
   | { type: "setUserGoogleRequiredScopes"; payload: boolean }
   | { type: "setToken"; payload: NewToken | null }
   | { type: "logout"; payload: State }
-  | { type: "setAuthenticated"; payload: boolean };
-
+  | { type: "setAuthenticated"; payload: boolean }
+  | {
+      type: "setIsNewUser";
+      payload: boolean;
+    };
 type ActionTypes = Action["type"];
 
 export function appReducer(state: State, action: Action) {

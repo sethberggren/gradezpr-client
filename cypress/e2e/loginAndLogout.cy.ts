@@ -1,6 +1,7 @@
 import { watchFile } from "fs";
 import { v4 as uuid } from "uuid";
-import { getByAriaLabel, getInputByLabel, loginUser } from "./cypressTools";
+import { getInputByLabel, getByAriaLabel } from "./tools/formTools";
+import { loginUser } from "./tools/userTools";
 
 function getExpiryTime(minutes: number) {
   const currentTime = new Date();

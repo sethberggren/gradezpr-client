@@ -47,6 +47,7 @@ import {
   sheetsScope,
 } from "../common/buttons/GoogleAdditionalScopesButton";
 import { getErrorFactory } from "../errors";
+import { WelcomeResponse } from "../import/TourModal";
 
 // const load = (dispatch: React.Dispatch<Action>) => dispatch({ type: "loadingContent", payload: null });
 // const doneLoading = (dispatch: React.Dispatch<Action>) => dispatch({ type: "doneLoading" , payload: null});
@@ -377,6 +378,9 @@ export async function intialize(
     appContextInitialState.userGoogleRequiredScopes =
       userInformation.userGoogleRequiredScopes;
     appContextInitialState.email = userInformation.email;
+    appContextInitialState.isLoggedInWithGoogle =
+      userInformation.isLoggedInWithGoogle;
+    appContextInitialState.isNewUser = userInformation.isNewUser;
 
     dispatch({ type: "initialize", payload: { ...appContextInitialState } });
     setInitializingOff(dispatch);
@@ -708,23 +712,27 @@ export async function grantAdditionalScopes(
   }
 }
 
-
-export type ResetPasswordStatus = "OK" | "noEmailOrPassword" | "userDoesNotExist";
+export type ResetPasswordStatus =
+  | "OK"
+  | "noEmailOrPassword"
+  | "userDoesNotExist";
 
 export async function resetPassword(payload: {
   email: string;
 }): Promise<ResetPasswordStatus> {
   const getErrors = getErrorFactory("AuthenticationError");
 
-  let toReturn : ResetPasswordStatus = "OK";
+  let toReturn: ResetPasswordStatus = "OK";
 
   try {
-    const response = await axios.post(backendUrl(apiRoutes.forgotPassword), payload);
+    const response = await axios.post(
+      backendUrl(apiRoutes.forgotPassword),
+      payload
+    );
 
     if (response.data.status !== "OK") {
-      toReturn = "noEmailOrPassword"
+      toReturn = "noEmailOrPassword";
     }
-
   } catch (error: any) {
     let axiosErr: AxiosError = error;
 
@@ -734,7 +742,7 @@ export async function resetPassword(payload: {
       if (errorMessage === getErrors("userDoesNotExist").errorBody.message) {
         toReturn = "userDoesNotExist";
       } else {
-       toReturn = "noEmailOrPassword";
+        toReturn = "noEmailOrPassword";
       }
     } else {
       toReturn = "noEmailOrPassword";
@@ -742,4 +750,37 @@ export async function resetPassword(payload: {
   }
 
   return toReturn;
+}
+
+export async function getWelcome(
+  token: NewToken | null,
+  dispatch: React.Dispatch<Action>
+) {
+  const welcomeResponse = await apiCall<WelcomeResponse[]>(
+    token,
+    dispatch,
+    { type: "GET" },
+    apiRoutes.welcome,
+    true
+  );
+
+  if (!welcomeResponse) {
+    return [];
+  }
+
+  return welcomeResponse;
+}
+
+export async function hasSeenWelcome(
+  token: NewToken | null,
+  dispatch: React.Dispatch<Action>
+) {
+  await apiCall(
+    token,
+    dispatch,
+    { type: "PATCH", payload: {} },
+    apiRoutes.hasSeenWelcome
+  );
+
+  dispatch({ type: "setIsNewUser", payload: false });
 }

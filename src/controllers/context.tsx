@@ -29,6 +29,8 @@ export const appContextInitialState: State = {
   windowWidth: window.innerWidth,
   token: getTokenFromStorage(),
   authenticated: isAuthenticated,
+  isLoggedInWithGoogle: false,
+  isNewUser: false
 };
 
 const AppStateContext = createContext(appContextInitialState);

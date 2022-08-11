@@ -1,5 +1,10 @@
-import { fillOutStringForm } from "./formTools";
+import {
+  fillOutStringForm,
+  getByAriaLabel,
+  getInputByLabel,
+} from "./formTools";
 import { appUrl } from "./generalTools";
+import { v4 as uuid } from "uuid";
 
 export type RegisterForm = {
   firstName: string;
@@ -10,13 +15,12 @@ export type RegisterForm = {
 };
 
 export const registerFormFieldLabels: RegisterForm = {
-    firstName: "First Name",
-    lastName: "Last Name",
-    email: "Email",
-    password: "Password",
-    confirmedPassword: "Confirm Password",
-  };
-  
+  firstName: "First Name",
+  lastName: "Last Name",
+  email: "Email",
+  password: "Password",
+  confirmedPassword: "Confirm Password",
+};
 
 export const testUser: RegisterForm = {
   firstName: "Anakin",
@@ -26,7 +30,10 @@ export const testUser: RegisterForm = {
   confirmedPassword: "ch0s3n1*",
 };
 
-export const loginUser = () => {
+export const loginUser = (credentials?: {
+  email: string;
+  password: string;
+}) => {
   const email = testUser.email;
   const password = testUser.password;
 
@@ -36,8 +43,8 @@ export const loginUser = () => {
   };
 
   const loginFormValues = {
-    email: email,
-    password: password,
+    email: credentials ? credentials.email : email,
+    password: credentials ? credentials.password : password,
   };
 
   cy.visit(appUrl("login"));
@@ -45,4 +52,58 @@ export const loginUser = () => {
   fillOutStringForm(loginFormLabels, loginFormValues);
 
   cy.get("button").contains(/login/i).click();
+};
+
+export const createUuidUser = () => {
+  const password = uuid();
+
+  const registerFormValues: RegisterForm = {
+    firstName: uuid(),
+    lastName: uuid(),
+    email: `${uuid()}@gmail.com`,
+    password: password,
+    confirmedPassword: password,
+  };
+
+  cy.visit(appUrl("register"));
+  fillOutStringForm(registerFormFieldLabels, registerFormValues);
+
+  cy.get("button").contains(/next/i).click();
+
+  return { email: registerFormValues.email, password: password };
+};
+
+const verifyLoginScreen = () => {
+  cy.url().should("include", "/login");
+  getInputByLabel("Email").should("be.visible");
+  getInputByLabel("Password").should("be.visible");
+  expect(localStorage.getItem("token")).to.be.null;
+};
+
+export const logoutUser = () => {
+  getByAriaLabel("Menu Button").click();
+  cy.wait(1000);
+  cy.get("button").contains("Logout").click({ force: true });
+
+  verifyLoginScreen();
+};
+
+export const deleteUser = () => {
+  getByAriaLabel("Menu Button").click();
+  cy.contains(/manage account/i).click();
+
+  cy.url().should("include", "/settings/account");
+
+  cy.contains(/delete your gradezpr account/i).click();
+  cy.contains(/cancel/i).click();
+
+  cy.contains(/delete your gradezpr account/i).should("be.visible");
+
+  cy.contains(/delete your gradezpr account/i).click();
+  cy.get("button")
+    .contains(/yes, delete my account/i)
+    .click()
+    .then(() => {
+      cy.url().should("include", "/settings/account-delete");
+    });
 };

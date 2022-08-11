@@ -3,7 +3,11 @@ import { addNewCourse } from "./tools/courseTools";
 import { getByAriaLabel, fillOutStringForm } from "./tools/formTools";
 import { appUrl } from "./tools/generalTools";
 import { addNewRandomStudent } from "./tools/studentTools";
-import { RegisterForm, registerFormFieldLabels } from "./tools/userTools";
+import {
+  deleteUser,
+  RegisterForm,
+  registerFormFieldLabels,
+} from "./tools/userTools";
 
 const password = uuid();
 
@@ -29,23 +33,7 @@ const openAndVerifyNoStudentsOrCoursesModal = () => {
 
 describe("test to make sure the No Students or Courses Modal opens if the user does not have students or courses", () => {
   after(() => {
-    getByAriaLabel("Menu Button").click();
-    cy.contains(/manage account/i).click();
-
-    cy.url().should("include", "/settings/account");
-
-    cy.contains(/delete your gradezpr account/i).click();
-    cy.contains(/cancel/i).click();
-
-    cy.contains(/delete your gradezpr account/i).should("be.visible");
-
-    cy.contains(/delete your gradezpr account/i).click();
-    cy.get("button")
-      .contains(/yes, delete my account/i)
-      .click()
-      .then(() => {
-        cy.url().should("include", "/settings/account-delete");
-      });
+    deleteUser();
   });
   it("should see the modal with zero students and zero courses", () => {
     cy.visit(appUrl("register"));

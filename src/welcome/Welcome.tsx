@@ -59,7 +59,7 @@ export default function Welcome() {
     },
     {
       heading: "Zap",
-      description: "your grades.",
+      description: "your grades into PowerSchool.",
     },
   ];
 
