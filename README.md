@@ -1,46 +1,38 @@
-# Getting Started with Create React App
+# Gradezpr-client
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<a href="https://github.com/sethberggren/gradezpr"><h2>Backend Link</h2></a>
 
-## Available Scripts
+<a href="https://github.com/sethberggren/gradezpr-extension"><h2>Extension Link</h2></a>
 
-In the project directory, you can run:
+<a href="https://gradezpr.iceberggren.com"><h2>Live Web App Link</h2></a>
 
-### `npm start`
+<br></br>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+This is the frontend for my web app, Gradezpr. Gradezpr was born of a desire to make the grading process as a teacher quicker. I found myself doing the same repetitive tasks over and over, like correcting student names to match the gradebook, curving grades, and looking at summary statistics for assignments. Gradezpr was designed to do all of these tasks and more.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+<br></br>
 
-### `npm test`
+Gradezpr's main feature is its ability to automatically match up student information in assignments scoresheets on Google Sheets or Excel files with the 'official' student information the end-user uploads. This is beneficial as sometimes the assignment scoresheets have pseudonyms for students (Ben vs. Benjamin, for example), which can cause errors for importing grades into Learning Managment Systems, like PowerSchool.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<br></br>
 
-### `npm run build`
+Gradezpr's frontend was built using a variety of technologies. Here's a list of notable tools leveraged:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<ul>
+<li><a href="https://www.typescriptlang.org">TypeScript </a></li>
+<li><a href="https://reactjs.org/">React </a></li>
+<li><a href="https://chakra-ui.com/">ChakraUI </a></li>
+<li><a href="https://www.cypress.io/">Cypress</a></li>
+</ul>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Usage
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+If you'd like to run a local copy of Gradezpr's frontend on your device to tinker with, here's the steps.
 
-### `npm run eject`
+```bash
+git clone https://github.com/sethberggren/gradezpr-client
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+npm install
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+npm start
+```
