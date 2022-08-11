@@ -17,7 +17,9 @@ export const routes = {
   credentialError: "/auth-error",
   requestComplete: "/requestComplete",
   passwordReset: "/password-reset",
-  passwordResetSuccess: "/password-changed"
+  passwordResetSuccess: "/password-changed",
+  privacyPolicyAcknowledgement: "/privacy-policy-acknowledgement",
+  privacyPolicy: "/privacy-policy"
 } as const;
 
 export const apiRoutes = {

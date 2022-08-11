@@ -1,5 +1,5 @@
 import { Flex, Link, Text } from "@chakra-ui/react";
-import { faBook, faBug, faGlobe } from "@fortawesome/free-solid-svg-icons";
+import { faBook, faBug, faFileContract, faGavel, faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useResponsive } from "./hooks/useResponsive";
 import { routes } from "./routes";
@@ -16,6 +16,11 @@ const footerLinks: { text: string; icon: JSX.Element; link: string }[] = [
     icon: <FontAwesomeIcon icon={faBug} />,
     link: routes.featureRequest,
   },
+  {
+    text: "Privacy Policy",
+    icon: <FontAwesomeIcon icon={faFileContract} />,
+    link: routes.privacyPolicy
+  }
 //   {
 //       text: "Get the Extension",
 //       icon: <FontAwesomeIcon icon={faGlobe} />,

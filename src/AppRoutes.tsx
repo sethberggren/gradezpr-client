@@ -24,6 +24,8 @@ import CredentialError from "./CredentialError";
 import useError from "./hooks/useError";
 import { useAppStateContext, useDispatchContext } from "./controllers/context";
 import ForgotPassword, { ResetPasswordSuccess } from "./welcome/ForgotPassword";
+import PrivacyPolicy from "./privacy/PrivacyPolicy";
+import PrivacyAcknowledgement from "./privacy/PrivacyAcknowledgement";
 
 export default function AppRoutes(props: {
   authenticatedState: Authentication;
@@ -31,7 +33,6 @@ export default function AppRoutes(props: {
   menuItems: TMenuItem[];
   settingsMenuItems: TMenuItem[];
 }) {
-
   // PROPS AND VARIABLES DERIVED FROM PROPS
   const {
     authenticatedState,
@@ -52,7 +53,7 @@ export default function AppRoutes(props: {
   useError(error, navigate, dispatch);
 
   // JSX VARIABLES
- 
+
   const renderedMenuItems = menuItems.map((item) => (
     <Route
       path={item.route}
@@ -95,9 +96,6 @@ export default function AppRoutes(props: {
     />
   ));
 
-
-  
-
   // could refactor to use outlet for appheader??
 
   return (
@@ -121,7 +119,23 @@ export default function AppRoutes(props: {
         }
       />
       <Route path={routes.passwordReset} element={<ForgotPassword />} />
-      <Route path={routes.passwordResetSuccess} element={<ResetPasswordSuccess />} />
+      <Route path={routes.privacyPolicy} element={<PrivacyPolicy />} />
+
+      <Route
+        path={routes.privacyPolicyAcknowledgement}
+        element={
+          <ProtectedRoute
+            authenticated={authenticated}
+            tokenTimeout={tokenTimeout}
+          >
+            <PrivacyAcknowledgement />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={routes.passwordResetSuccess}
+        element={<ResetPasswordSuccess />}
+      />
       <Route
         path={routes.linkAccounts}
         element={<LinkWithGoogleAccount authentication={authenticatedState} />}

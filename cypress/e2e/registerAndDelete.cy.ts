@@ -7,7 +7,7 @@ import {
   getByAriaLabel,
 } from "./tools/formTools";
 import { appUrl, menuButton } from "./tools/generalTools";
-import { RegisterForm, registerFormFieldLabels } from "./tools/userTools";
+import { acknowledgePrivacyPolicy, RegisterForm, registerFormFieldLabels } from "./tools/userTools";
 
 const password = uuid();
 
@@ -57,6 +57,10 @@ describe("register flow", () => {
     cy.contains(
       /Your passwords do not match. Check them and try again!/i
     ).should("not.exist");
+
+    acknowledgePrivacyPolicy();
+
+    cy.wait(2000);
 
     cy.url().should("include", "/import");
   });

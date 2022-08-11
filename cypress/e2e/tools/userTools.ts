@@ -30,6 +30,14 @@ export const testUser: RegisterForm = {
   confirmedPassword: "ch0s3n1*",
 };
 
+
+export const acknowledgePrivacyPolicy = () => {
+
+  cy.get("input").check({force: true});
+
+  cy.get("button").contains(/continue/i).click({force: true});
+}
+
 export const loginUser = (credentials?: {
   email: string;
   password: string;
@@ -69,6 +77,10 @@ export const createUuidUser = (dismissWelcome?: boolean) => {
   fillOutStringForm(registerFormFieldLabels, registerFormValues);
 
   cy.get("button").contains(/next/i).click().then(() => {
+    cy.wait(2000);
+
+    acknowledgePrivacyPolicy();
+
     cy.wait(2000);
     if (dismissWelcome) {
       getByAriaLabel("Close tour modal").click();

@@ -650,12 +650,17 @@ export function setTokenAndRedirect(
   token: NewToken,
   dispatch: React.Dispatch<Action>,
   setAuthenticatedTrue: () => void,
-  navigate: NavigateFunction
+  navigate: NavigateFunction,
+  route?: string
 ) {
   dispatch({ type: "setToken", payload: token });
   setAuthenticatedTrue();
 
-  navigate(routes.import);
+  if (route) {
+    navigate(route);
+  } else {
+    navigate(routes.import);
+  }
 }
 
 export function logout(dispatch: React.Dispatch<Action>) {

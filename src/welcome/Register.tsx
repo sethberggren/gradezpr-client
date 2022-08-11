@@ -1,4 +1,5 @@
 import {
+  Checkbox,
   Divider,
   FormControl,
   Link,
@@ -104,7 +105,8 @@ export default function Register(props: { authentication: Authentication }) {
             response,
             dispatch,
             setAuthenticatedTrue,
-            navigate
+            navigate,
+            routes.privacyPolicyAcknowledgement
           );
         } else {
           setErrorState("unknownError");
@@ -146,7 +148,7 @@ export default function Register(props: { authentication: Authentication }) {
 
       if (token) {
         setAuthenticatedTrue();
-        setTokenAndRedirect(token, dispatch, setAuthenticatedTrue, navigate);
+        setTokenAndRedirect(token, dispatch, setAuthenticatedTrue, navigate, routes.privacyPolicyAcknowledgement);
       } else {
         setErrorState("unknownError");
       }
