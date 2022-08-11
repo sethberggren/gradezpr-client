@@ -562,7 +562,7 @@ export async function changePassword(
     apiRoutes.changePassword
   );
 
-  return;
+  return "password changed" as const;
 }
 
 export function updateWindowWidth(dispatch: React.Dispatch<Action>) {

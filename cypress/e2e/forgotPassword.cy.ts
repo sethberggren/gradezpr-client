@@ -4,8 +4,7 @@ const passwordChangeUrl = `http://localhost:8080/auth/forgot-password`
 
 describe("forgot passsword tests", () => {
   it("should be able to successfully reset password", () => {
-    // intercept http request
-
+    
     cy.intercept(
       { method: "POST", url: passwordChangeUrl },
       { status: "OK" }

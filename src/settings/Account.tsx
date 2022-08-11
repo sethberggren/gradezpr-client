@@ -1,6 +1,4 @@
-import backendUrl from "../services/backendUrl";
-import { FC, LegacyRef, useEffect, useRef, useState } from "react";
-import axios from "axios";
+import { useRef } from "react";
 import { useAppStateContext, useDispatchContext } from "../controllers/context";
 import {
   AlertDialog,
@@ -9,44 +7,24 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
-  AlertDialogProps,
   Box,
   Button,
-  Flex,
-  FormControl,
-  FormLabel,
   Heading,
-  Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  Spinner,
   Text,
-  toast,
   useDisclosure,
-  useToast,
 } from "@chakra-ui/react";
 import { SectionHeading } from "../common/SectionHeading";
-import {
-  changePassword as changePasswordAction,
-  deleteUser,
-  logout,
-} from "../controllers/actions";
-import { clear } from "console";
+import { deleteUser, logout } from "../controllers/actions";
 import { ChangePasswordModal } from "./ChangePasswordModal";
 import GoogleAdditionalScopesButton from "../common/buttons/GoogleAdditionalScopesButton";
-import useBoolean from "../hooks/useBoolean";
 import useAction from "../hooks/useAction";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../routes";
 
 export default function Account() {
-
   // CONTEXT AND DISPATCH
-  const { userGoogleRequiredScopes, email } = useAppStateContext();
+  const { userGoogleRequiredScopes, email, isLoggedInWithGoogle } =
+    useAppStateContext();
 
   // STATE
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -57,11 +35,19 @@ export default function Account() {
   } = useDisclosure();
 
   // JSX VARIABLES
-  const loggedIn = <Text>You're logged in with Google!  This enables grabbing information from Google Sheets.</Text>;
+  const loggedIn = (
+    <Text>
+      You're logged in with Google! This enables grabbing information from
+      Google Sheets.
+    </Text>
+  );
 
   const notLoggedIn = (
     <>
-      <Text marginBottom="1rem">You haven't granted permission to access Google Sheets and Google Drive to enable grabbing information from Google Sheets.  Grant permissions?</Text>
+      <Text marginBottom="1rem">
+        You haven't granted permission to access Google Sheets and Google Drive
+        to enable grabbing information from Google Sheets. Grant permissions?
+      </Text>
       <GoogleAdditionalScopesButton />
     </>
   );
@@ -79,7 +65,11 @@ export default function Account() {
 
       <Box marginBottom="1em">
         <AccountHeader heading="Password" />
-        <Button onClick={onOpen}>Change Password</Button>
+        {isLoggedInWithGoogle ? (
+          <Text>Your account uses Google to login.</Text>
+        ) : (
+          <Button onClick={onOpen}>Change Password</Button>
+        )}
       </Box>
 
       <Box width="50%" marginBottom="1em">
@@ -131,7 +121,6 @@ function DeleteAcccountModal(props: { isOpen: boolean; onClose: () => void }) {
     dispatch
   );
 
-
   return (
     <AlertDialog
       isOpen={isOpen}
@@ -150,7 +139,12 @@ function DeleteAcccountModal(props: { isOpen: boolean; onClose: () => void }) {
             <Button ref={cancelButtonRef} onClick={onClose}>
               Cancel
             </Button>
-            <Button colorScheme="red" onClick={confirmDeleteOn} ml={3} isLoading={confirmDelete}>
+            <Button
+              colorScheme="red"
+              onClick={confirmDeleteOn}
+              ml={3}
+              isLoading={confirmDelete}
+            >
               Yes, delete my account.
             </Button>
           </AlertDialogFooter>

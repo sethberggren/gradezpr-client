@@ -20,8 +20,10 @@ import { changePassword as changePasswordAction } from "../controllers/actions";
 import { useAppStateContext, useDispatchContext } from "../controllers/context";
 import useAction from "../hooks/useAction";
 
-export function ChangePasswordModal(props: { isOpen: boolean; onClose: () => void }) {
-
+export function ChangePasswordModal(props: {
+  isOpen: boolean;
+  onClose: () => void;
+}) {
   // PROPS AND VARIABLES DERIVED FROM PROPS
   const { isOpen, onClose } = props;
 
@@ -48,13 +50,13 @@ export function ChangePasswordModal(props: { isOpen: boolean; onClose: () => voi
 
   // EFFECTS
   // ASYNC DATA UPDATES
-  const {loading, setLoadingTrue} = useAction(async () => {
+  const { loading, setLoadingTrue } = useAction(async () => {
     if (newPassword !== confirmPassword) {
       setPasswordsMatch(false);
       return;
     }
 
-    changePasswordAction(token, dispatch, {
+    const passwordChanged = changePasswordAction(token, dispatch, {
       oldPassword: oldPassword,
       newPassword: newPassword,
       confirmPassword: confirmPassword,
@@ -69,9 +71,6 @@ export function ChangePasswordModal(props: { isOpen: boolean; onClose: () => voi
     });
   }, dispatch);
   // JSX VARIABLES
-
-
-
 
   return (
     <Modal isOpen={isOpen} onClose={clearOnClose}>
@@ -88,29 +87,34 @@ export function ChangePasswordModal(props: { isOpen: boolean; onClose: () => voi
               }}
             >
               <FormControl>
-                <FormLabel>Old Password:</FormLabel>
+                <FormLabel htmlFor="oldPassword">Old Password:</FormLabel>
 
                 <Input
                   value={oldPassword}
                   type="password"
+                  id="oldPassword"
                   marginBottom="1em"
                   onChange={(e) => setOldPassword(e.target.value)}
                 />
 
-                <FormLabel>New Password:</FormLabel>
+                <FormLabel htmlFor="newPassword">New Password:</FormLabel>
 
                 <Input
                   value={newPassword}
                   type="password"
+                  id="newPassword"
                   marginBottom="1em"
                   onChange={(e) => setNewPassword(e.target.value)}
                 />
 
-                <FormLabel>Confirm New Password:</FormLabel>
+                <FormLabel htmlFor="confirmPassword">
+                  Confirm New Password:
+                </FormLabel>
 
                 <Input
                   value={confirmPassword}
                   type="password"
+                  id="confirmPassword"
                   marginBottom="1em"
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />
@@ -124,7 +128,11 @@ export function ChangePasswordModal(props: { isOpen: boolean; onClose: () => voi
                 </Text>
 
                 <Flex width="100%" justifyContent="center" marginBottom="1em">
-                  <ActionButton actionType="proceed" type="submit" isLoading={loading}>
+                  <ActionButton
+                    actionType="proceed"
+                    type="submit"
+                    isLoading={loading}
+                  >
                     Change Password
                   </ActionButton>
                 </Flex>

@@ -25,6 +25,8 @@ export const fillOutStringForm = <K extends { [key: string]: string }>(
     const label = labels[key];
     const value = values[key];
 
+    console.log("here's the label " + label);
+
     getInputByLabel(label).type(value);
     getInputByLabel(label).should("have.value", value);
   }

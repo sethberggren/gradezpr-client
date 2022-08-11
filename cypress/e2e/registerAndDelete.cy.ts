@@ -6,7 +6,7 @@ import {
   clearStringForm,
   getByAriaLabel,
 } from "./tools/formTools";
-import { appUrl } from "./tools/generalTools";
+import { appUrl, menuButton } from "./tools/generalTools";
 import { RegisterForm, registerFormFieldLabels } from "./tools/userTools";
 
 const password = uuid();
@@ -64,7 +64,11 @@ describe("register flow", () => {
 
 describe("delete flow", () => {
   it("should click on settings, then manage acccount", () => {
-    getByAriaLabel("Menu Button").click();
+
+    getByAriaLabel("Close tour modal").click();
+
+    cy.wait(2000);
+    menuButton().click();
     cy.contains(/manage account/i).click();
 
     cy.url().should("include", "/settings/account");

@@ -28,7 +28,7 @@ export type WelcomeResponse = {
 export default function TourModal(props: Omit<ModalProps, "children">) {
   const { isOpen, onClose } = props;
 
-  const { token } = useAppStateContext();
+  const { token, isNewUser } = useAppStateContext();
   const dispatch = useDispatchContext();
 
   const [welcomeSteps, setWelcomeSteps] = useState<WelcomeResponse[]>([]);
@@ -47,7 +47,9 @@ export default function TourModal(props: Omit<ModalProps, "children">) {
   }, dispatch);
 
   useEffect(() => {
-    setLoadingTrue();
+    if (isNewUser) {
+      setLoadingTrue();
+    }
   }, []);
 
   const renderedWelcomeSteps = welcomeSteps.map((welcomeStep) => (
@@ -89,7 +91,7 @@ function TourModalStep(props: WelcomeResponse) {
     <>
       <ModalHeader>{header}</ModalHeader>
 
-      <ModalCloseButton aria-label="Close tour modal"/>
+      <ModalCloseButton aria-label="Close tour modal" />
 
       <ModalBody>{body}</ModalBody>
     </>
@@ -101,7 +103,7 @@ function TourModalLoading() {
     <>
       <ModalHeader>Welcome to Gradezpr! ⚡</ModalHeader>
 
-      <ModalCloseButton aria-label="Close tour modal"/>
+      <ModalCloseButton aria-label="Close tour modal" />
 
       <ModalBody>
         <Spinner />

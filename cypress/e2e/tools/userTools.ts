@@ -54,7 +54,7 @@ export const loginUser = (credentials?: {
   cy.get("button").contains(/login/i).click();
 };
 
-export const createUuidUser = () => {
+export const createUuidUser = (dismissWelcome?: boolean) => {
   const password = uuid();
 
   const registerFormValues: RegisterForm = {
@@ -68,7 +68,14 @@ export const createUuidUser = () => {
   cy.visit(appUrl("register"));
   fillOutStringForm(registerFormFieldLabels, registerFormValues);
 
-  cy.get("button").contains(/next/i).click();
+  cy.get("button").contains(/next/i).click().then(() => {
+    cy.wait(2000);
+    if (dismissWelcome) {
+      getByAriaLabel("Close tour modal").click();
+
+      cy.wait(2000);
+    }
+  })
 
   return { email: registerFormValues.email, password: password };
 };
