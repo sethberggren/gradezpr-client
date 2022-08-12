@@ -71,7 +71,6 @@ export default function BugRequest() {
   };
 
   const { loading, setLoadingTrue } = useAction(async () => {
-    console.log(requestForm);
     await postUserRequest(token, dispatch, requestForm);
 
     navigate(routes.requestComplete);

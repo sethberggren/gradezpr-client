@@ -41,15 +41,11 @@ export default function useBooleanObject<K extends BoolObj>(initial: K) {
   };
 
   const allOff = () => {
-
-    console.log("Turnign all boolean properties off!");
     const newState = { ...boolObj };
 
     for (const key of ObjectTyped.keys(newState)) {
       newState[key] = false as K[keyof K];
     }
-
-    console.log(newState)
 
     setBoolObj(newState);
   };

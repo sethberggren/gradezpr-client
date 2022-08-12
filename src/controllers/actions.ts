@@ -203,9 +203,6 @@ export async function importFile(
       true
     );
 
-    console.log("here's the assignment response");
-    console.log(assignment);
-
     if (assignment) {
       importDispatch({ type: "setAssignmentReturned", payload: assignment });
       importDispatch({ type: "setImportStage", payload: 2 });
@@ -213,18 +210,19 @@ export async function importFile(
     }
   }
 
-  if (driveFile && file === undefined) {
+  if (driveFile) {
     const importFileRequest: ImportDriveFileRequest = {
       name: driveFile.name,
       id: driveFile.id,
       course: courseName,
     };
+
     const assignment = await apiCall<AssignmentDetails>(
       token,
       dispatch,
       {
         type: "POST",
-        payload: { name: driveFile.name, id: driveFile.id, course: courseName },
+        payload: importFileRequest,
       },
       apiRoutes.importDriveFile,
       true
@@ -262,7 +260,6 @@ export async function curveGrades(
 
   if (file !== undefined && file.name) {
     // to-do: refactor so this uses options as strings, instead of options as numbers.
-    console.log("Curving local file.");
     const fileFormData = new FormData();
     fileFormData.append("file", file, file.name);
 
@@ -309,7 +306,7 @@ export async function curveGrades(
     const importedAssignment = await apiCall<AssignmentResponse>(
       token,
       dispatch,
-      { type: "POST", payload: driveFile },
+      { type: "POST", payload: requestPayload },
       apiRoutes.curveDriveFile,
       true
     );
@@ -597,7 +594,6 @@ export async function loginUser(
       dispatch({ type: "setToken", payload: null });
     }
   } catch (err) {
-    console.log(err);
     setIncorrectPasswordTrue();
     dispatch({ type: "setToken", payload: null });
   }
@@ -624,7 +620,6 @@ export async function loginUserWithGoogle(
       dispatch({ type: "setToken", payload: null });
     }
   } catch (err) {
-    console.log(err);
     dispatch({ type: "setToken", payload: null });
   }
 }

@@ -10,14 +10,11 @@ export default function useAction<T>(action: () => Promise<T> | void, dispatch: 
   useEffect(() => {
     const fetchData = async () => {
       // should implement a way to handle errors in a graceful manner...
-
-      console.log("Starting to load...");
       setLoadingTrue();
 
       await errorHandler(action, dispatch);
 
       setLoadingFalse();
-      console.log("Finished loading!");
     };
 
     if (loading) {

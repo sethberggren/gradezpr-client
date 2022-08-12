@@ -90,8 +90,6 @@ export function StudentEditDialog(props: {
         .split(",")
         .map((val) => val.trim());
 
-      console.log(studentCourses);
-
       setCourseCheckbox([...studentCourses]);
     }
   }, [userCourses, updateOrNew]);
@@ -112,7 +110,6 @@ export function StudentEditDialog(props: {
   // ASYNC DATA FETCHING
   const { loading, setLoadingTrue } = useAction(async () => {
     const postNewStudent = async () => {
-      console.log("posting new student...");
       await createStudent(token, dispatch, userStudents, editedStudent);
     };
 

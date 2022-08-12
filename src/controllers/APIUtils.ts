@@ -13,7 +13,6 @@ import errorHandler from "./errorHandler";
 import { NewToken } from "@backend/http/routes/authentication/generateToken";
 
 export function tokenHeader(token: NewToken) {
-  console.log(token.token);
   return {
     headers: {
       "x-access-token": token.token,
@@ -34,8 +33,6 @@ export function setTokenFromResponseHeader(
   if (tokenHeader) {
     const tokenHeaderJson = JSON.parse(tokenHeader) as NewToken;
     dispatch({ type: "setToken", payload: tokenHeaderJson });
-
-    console.log("The token has been refreshed!");
   } else {
     createCredentialError(dispatch);
   }
@@ -79,8 +76,6 @@ export async function apiCall<K extends unknown>(
 
   let response: AxiosResponse | undefined;
   const tokenToSend = tokenHeader(token);
-
-  console.log(tokenToSend);
 
   const requestUrl = backendUrl(url);
 

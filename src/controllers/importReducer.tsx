@@ -77,8 +77,9 @@ const importReducerFunctions: ImportReducerFunction = {
     return { ...state, importedAssignmentCurveString: payload };
   },
   resetImportState: (state: ImportState, { payload }: { payload: null }) => {
+
     return {
-      ...state,
+      importedAssignmentCurveString: "",
       isLoading: false,
       importStage: 1,
       gDrive: {
@@ -88,8 +89,6 @@ const importReducerFunctions: ImportReducerFunction = {
       userHasSelectedFile: false,
       fileUpload: { toUpload: {} as File },
       assignmentReturned: {} as AssignmentDetails,
-      importedAssignment: "",
-      error: { type: "", message: "" },
     };
   },
 };

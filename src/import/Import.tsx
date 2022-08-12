@@ -111,8 +111,6 @@ function ImportedAssignments() {
   const dispatch = useDispatchContext();
   const isMdOrSmaller = useResponsive();
 
-  console.log(userAssignments);
-
   // STATE
   const [courseFilter, setCourseFilter] = useState("All Classes");
   const [assignmentsInView, setAssignmentsInView] = useState(
