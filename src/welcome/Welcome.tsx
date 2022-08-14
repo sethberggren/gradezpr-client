@@ -16,6 +16,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import AppFooter from "../AppFooter";
 import ActionButton from "../common/buttons/ActionButton";
 import { Card } from "../common/Card";
 
@@ -193,6 +194,8 @@ export default function Welcome() {
           </Text>
         </Button>
       </WelcomeSection>
+
+      <AppFooter />
     </>
   );
 }

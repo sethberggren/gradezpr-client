@@ -1,5 +1,7 @@
 import { FullScreenForm, FullScreenFormHeading } from "../common/FullScreenForm";
-import { Text } from "@chakra-ui/react";
+import { Link, Text } from "@chakra-ui/react";
+import {Link as ReactRouterLink} from "react-router-dom";
+import { routes } from "../routes";
 
 const aboutHeading = "About gradezpr";
 
@@ -28,7 +30,7 @@ export default function About() {
         use, thus, the web version of Gradezpr was born. I hope Gradezpr frees
         up your time so you can get back to more meaningful experiences as a
         teacher. I'm always looking to improve and make Gradezpr a better
-        service: if you have any recommendations, you can drop them at this link. 
+        service: if you have any recommendations, you can drop them at this <Link as={ReactRouterLink} to={routes.featureRequest}>link (requires login).</Link>
       </Text>
     </FullScreenForm>
   );

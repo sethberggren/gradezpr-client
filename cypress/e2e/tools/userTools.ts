@@ -59,7 +59,7 @@ export const loginUser = (credentials?: {
 
   fillOutStringForm(loginFormLabels, loginFormValues);
 
-  cy.get("button").contains(/login/i).click();
+  return cy.get("button").contains(/login/i).click();
 };
 
 export const createUuidUser = (dismissWelcome?: boolean) => {
