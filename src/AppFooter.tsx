@@ -139,32 +139,3 @@ function FooterLink(props: FooterLink) {
     );
   }
 }
-
-// function ExternalFooterLink(props: FooterLink) {
-//   const { text, icon, link, authRequired, isExternal } = props;
-
-//   const { authenticated } = useAppStateContext();
-
-//   const LinkToReturn = (
-//     <Link
-//       as="a"
-//       href={link}
-//       target="_blank"
-//       rel="noopener noreferrer"
-//       display="flex"
-//       alignItems="center"
-//       paddingY="0.25rem"
-//       textAlign="center"
-//     >
-//       <Text>
-//         {text} {icon}
-//       </Text>
-//     </Link>
-//   );
-
-//   if (authRequired) {
-//     return authenticated ? LinkToReturn : null;
-//   } else {
-//     return LinkToReturn;
-//   }
-// }

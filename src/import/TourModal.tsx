@@ -93,7 +93,7 @@ function TourModalStep(props: WelcomeResponse) {
 
       <ModalCloseButton aria-label="Close tour modal" />
 
-      <ModalBody>{body}</ModalBody>
+      <ModalBody dangerouslySetInnerHTML={{__html: body}}></ModalBody>
     </>
   );
 }
