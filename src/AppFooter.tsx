@@ -17,6 +17,7 @@ type FooterLink = {
   icon: JSX.Element;
   link: string;
   authRequired: boolean;
+  isExternal: boolean;
 };
 
 const footerLinks: FooterLink[] = [
@@ -25,24 +26,29 @@ const footerLinks: FooterLink[] = [
     icon: <FontAwesomeIcon icon={faBook} />,
     link: routes.about,
     authRequired: false,
+    isExternal: false,
   },
   {
     text: "Submit a Bug/Feature Request",
     icon: <FontAwesomeIcon icon={faBug} />,
     link: routes.featureRequest,
     authRequired: true,
+    isExternal: false,
   },
   {
     text: "Privacy Policy",
     icon: <FontAwesomeIcon icon={faFileContract} />,
     link: routes.privacyPolicy,
     authRequired: false,
+    isExternal: false,
   },
-  //   {
-  //       text: "Get the Extension",
-  //       icon: <FontAwesomeIcon icon={faGlobe} />,
-  //       link: routes.extension
-  //   }
+  {
+    text: "Get the Extension",
+    icon: <FontAwesomeIcon icon={faGlobe} />,
+    link: "https://chrome.google.com/webstore/detail/gradezpr-extension/kdhmclflakomgdeedipbnoddneiaamea",
+    authRequired: false,
+    isExternal: true,
+  },
 ];
 
 export default function AppFooter() {
@@ -60,7 +66,7 @@ export default function AppFooter() {
       <Text display="flex" alignItems="center" textAlign="center">
         Made with 💙 by{" "}
         <a
-          style={{ margin: "0 0.3rem", textDecoration: "underline"}}
+          style={{ margin: "0 0.3rem", textDecoration: "underline" }}
           href="https://www.iceberggren.com"
           target="_blank"
           rel="noopener noreferrer"
@@ -78,9 +84,28 @@ export default function AppFooter() {
 }
 
 function FooterLink(props: FooterLink) {
-  const { text, icon, link, authRequired } = props;
+  const { text, icon, link, authRequired, isExternal } = props;
 
   const { authenticated } = useAppStateContext();
+
+  if (isExternal) {
+    return (
+      <Link
+        as="a"
+        href={link}
+        target="_blank"
+        rel="noopener noreferrer"
+        display="flex"
+        alignItems="center"
+        paddingY="0.25rem"
+        textAlign="center"
+      >
+        <Text>
+          {text} {icon}
+        </Text>
+      </Link>
+    );
+  }
 
   if (authRequired) {
     return authenticated ? (
@@ -114,3 +139,32 @@ function FooterLink(props: FooterLink) {
     );
   }
 }
+
+// function ExternalFooterLink(props: FooterLink) {
+//   const { text, icon, link, authRequired, isExternal } = props;
+
+//   const { authenticated } = useAppStateContext();
+
+//   const LinkToReturn = (
+//     <Link
+//       as="a"
+//       href={link}
+//       target="_blank"
+//       rel="noopener noreferrer"
+//       display="flex"
+//       alignItems="center"
+//       paddingY="0.25rem"
+//       textAlign="center"
+//     >
+//       <Text>
+//         {text} {icon}
+//       </Text>
+//     </Link>
+//   );
+
+//   if (authRequired) {
+//     return authenticated ? LinkToReturn : null;
+//   } else {
+//     return LinkToReturn;
+//   }
+// }
